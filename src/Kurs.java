@@ -143,13 +143,15 @@ public class Kurs {
 
     private float berechneDurchschnittsalter() {
         int alterAllerTeilnehmer = 0;
+        int anzahlTeilnehmerMitGueltigemAlter = 0;
         for ( Teilnehmer t : teilnehmer ) {
             int alter = t.berechnetAlter();
             if ( alter != -1 ) {
                 alterAllerTeilnehmer += alter;
+                anzahlTeilnehmerMitGueltigemAlter++;
             }
         }
-        return (float) alterAllerTeilnehmer / teilnehmer.size(); // 2
+        return (float) alterAllerTeilnehmer / anzahlTeilnehmerMitGueltigemAlter; // 2
     }
 
     private float berechneKursbelegungInProzent() {
