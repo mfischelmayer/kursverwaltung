@@ -33,5 +33,4 @@ build/
 
 ### generated ###
 *.html
-*.png
 .asciidoctor

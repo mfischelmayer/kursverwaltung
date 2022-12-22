@@ -1,0 +1,68 @@
+[plantuml,target=as1,format=png]
+....
+class Teilnehmer {
+    - vorname: String
+    - nachname: String
+    - geburtstag: LocalDate
+    - geschlecht: char
+    ---
+    + Teilnehmer(vorname: String, nachname: String, geburtstag: LocalDate, geschlecht: char)
+    ---
+    // getter und setter nach eigenem Ermessen
+    + berechneAlter(): int
+    + print()
+}
+
+class Trainer {
+    - vorname: String
+    - nachname: String
+    ---
+    + Trainer(vorname: String, nachname: String)
+    ---
+    // getter und setter nach eigenem Ermessen
+}
+
+class Institut {
+    - name: String {readOnly}
+    - kurse: List<Kurs> {readOnly}
+    ---
+    + Institut(name: String)
+    ---
+    // getter und setter nach eigenem Ermessen
+    + kursHinzufuegen(name: String, maxTeilnehmerAnzahl: int, trainer: Trainer, von: LocalDate, bis: LocalDate)
+    + sucheKurseZwischen(von: LocalDate, bis: LocalDate): List<Kurs>
+    + sucheKurs(name: String): Kurs
+
+}
+
+class Kurs {
+    - name: String {readOnly}
+    - maxTeilnehmerAnzahl: int {readOnly}
+    - von: LocalDate
+    - bis: LocalDate
+    - teilnehmer: List<Teilnehmer>
+    - trainer: Trainer
+    ---
+    + Kurs(name: String, maxTeilnehmerAnzahl: int, von: LocalDate, bis: LocalDate, trainer: Trainer)
+    ---
+    // getter und setter nach eigenem Ermessen
+    + teilnehmerEintragen(teilnehmer: Teilnehmer)
+    + printKursinfo()
+    - berechneDurchschnittsalter(): float
+    - berechneKursbelegungInProzent(): float
+    - kursbelegungNachGeschlecht(): Map<Character, Float>
+}
+
+
+
+class Main {
+---
+---
+    +{static} main(args: String[])
+}
+
+Institut ---right Kurs
+Teilnehmer ---left Kurs
+Trainer --- Kurs
+Kurs <--[hidden] Main
+....
