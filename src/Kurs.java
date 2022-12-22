@@ -18,8 +18,22 @@ public class Kurs {
                  LocalDate von,
                  LocalDate bis,
                  Trainer trainer ) {
-        this.name = name;
-        this.maxTeilnehmerAnzahl = maxTeilnehmerAnzahl;
+
+        if ( name == null || name.isEmpty() ) {
+            System.out.println( "kein Name angegeben. es wird ein Standardname vergeben" );
+            this.name = "KURS";
+        } else {
+            this.name = name;
+        }
+
+        if ( maxTeilnehmerAnzahl < 1 ) {
+            System.out.println( "ungültiger Wert bei der maximalen Teilnehmeranzahl: Es wird 10 als maximale Teilnehmeranzahl gesetzt" );
+            this.maxTeilnehmerAnzahl = 10;
+        } else {
+            this.maxTeilnehmerAnzahl = maxTeilnehmerAnzahl;
+        }
+
+        // gerne auch die restlichen paramter pruefen ;-)
         this.von = von;
         this.bis = bis;
         this.trainer = trainer;
@@ -69,6 +83,7 @@ public class Kurs {
     /**
      * Fuege den uebergebenen Teilnehmer hinzu, aber
      * nur wenn die maximale Teilnehmeranzahl noch nicht erreicht ist.
+     *
      * @param teilnehmer
      */
     public void teilnehmerEintragen( Teilnehmer teilnehmer ) {
@@ -76,14 +91,11 @@ public class Kurs {
             System.out.println( "Fehler: Teilnehmer darf nicht null sein" );
             return;
         }
-
         boolean teilnehmergrenzeErreicht = ( this.teilnehmer.size() + 1 ) > maxTeilnehmerAnzahl;    // 1
-
         if ( teilnehmergrenzeErreicht ) {
             System.out.println( "Der Teilnehmer wird nicht in die Kursliste eingetragen. Teilnehmergrenzen erreicht" );
             return;
         }
-
         this.teilnehmer.add( teilnehmer );
     }
 
@@ -106,12 +118,11 @@ public class Kurs {
         System.out.println( "*********************************************" );
         System.out.println( "**************** KURSINFO *******************" );
         System.out.println( "*********************************************" );
-
         System.out.println( "Name:\t\t\t\t" + name );
         System.out.println( "Trainer:\t\t\t" + trainer.displayName() );
         System.out.println( "Max. Anzahl:\t\t" + maxTeilnehmerAnzahl );
         System.out.println( "Belegung in %:\t\t" + berechneKursbelegungInProzent() );
-        System.out.println( "Plätze frei:\t\t" + (maxTeilnehmerAnzahl - teilnehmer.size()) );
+        System.out.println( "Plätze frei:\t\t" + ( maxTeilnehmerAnzahl - teilnehmer.size() ) );
 
         Map<Character, Float> kursbelegungNachGeschlecht = kursbelegungNachGeschlecht();
 
@@ -133,9 +144,12 @@ public class Kurs {
     private float berechneDurchschnittsalter() {
         int alterAllerTeilnehmer = 0;
         for ( Teilnehmer t : teilnehmer ) {
-            alterAllerTeilnehmer += t.berechnetAlter();
+            int alter = t.berechnetAlter();
+            if ( alter != -1 ) {
+                alterAllerTeilnehmer += alter;
+            }
         }
-        return (float) alterAllerTeilnehmer / teilnehmer.size();
+        return (float) alterAllerTeilnehmer / teilnehmer.size(); // 2
     }
 
     private float berechneKursbelegungInProzent() {
@@ -172,7 +186,7 @@ public class Kurs {
         if ( anzahl == 0 ) {
             return 0.0f;
         }
-        return ( (float)anzahl / teilnehmer.size() ) * 100;
+        return ( (float) anzahl / teilnehmer.size() ) * 100;    // 2
     }
 
 }

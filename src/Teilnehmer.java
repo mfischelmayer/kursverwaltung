@@ -8,9 +8,9 @@ public class Teilnehmer {
     private char geschlecht;
 
     public Teilnehmer( String vorname, String nachname, LocalDate geburtstag, char geschlecht ) {
-        this.vorname = vorname;
-        this.nachname = nachname;
-        this.geburtstag = geburtstag;
+        setVorname( vorname );
+        setNachname( nachname );
+        setGeburtstag( geburtstag );
         setGeschlecht( geschlecht );
     }
 
@@ -19,7 +19,11 @@ public class Teilnehmer {
     }
 
     public void setVorname( String vorname ) {
-        this.vorname = vorname;
+        if(vorname == null || vorname.isEmpty()) {
+            this.vorname = "-";
+        } else {
+            this.vorname = vorname;
+        }
     }
 
     public String getNachname() {
@@ -27,7 +31,11 @@ public class Teilnehmer {
     }
 
     public void setNachname( String nachname ) {
-        this.nachname = nachname;
+        if(nachname == null || nachname.isBlank() ) {
+            this.nachname = "-";
+        } else {
+            this.nachname = nachname;
+        }
     }
 
     public LocalDate getGeburtstag() {
@@ -35,7 +43,12 @@ public class Teilnehmer {
     }
 
     public void setGeburtstag( LocalDate geburtstag ) {
-        this.geburtstag = geburtstag;
+        if ( LocalDate.now().minusYears( 130 ).isAfter( geburtstag ) ) {
+            System.out.println("Geburtstag ungültig. Wird auf null gesetzt");
+            this.geburtstag = null;
+        } else {
+            this.geburtstag = geburtstag;
+        }
     }
 
     public char getGeschlecht() {
@@ -60,11 +73,21 @@ public class Teilnehmer {
                 '}';
     }
 
+    /**
+     * Gibt die Informationen des Teilnehmers auf die Konsole aus
+     */
     public void print() {
         System.out.println(this);
     }
 
+    /**
+     *
+     * @return das Alter als Ganzzahl oder -1 wenn ein kein Geburtstag vorhanden
+     */
     public int berechnetAlter() {
+        if ( geburtstag == null ) {
+            return -1;
+        }
         return Period.between(geburtstag, LocalDate.now()).getYears();
     }
 }

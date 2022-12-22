@@ -92,7 +92,7 @@ Wenn ein Feld null sein darf, prüfen Sie dann Ihre Felder auch auf `null` wenn 
 Eines der nächsten großen Themen wird *Exception Handling*. Bis dahin müssen wir uns damit begnügen,
 den ungültigen Feldern Standardwerte bzw. Fehlerwerte zu geben.
 
-IMPORTANT: Dieses Beispiel enthält einfache Prozentrechnungen.
+IMPORTANT: Dieses Beispiel enthält einfache Berechnungen.
 z.b. bei der Berechnung des Durchschnittsalters der Kursteilnehmer.
 *WICHTIG*: Wenn Sie zwei Ganzzahlwerte (`int`) dividieren erhalten Sie wieder eine Ganzzahl.
 Nehmen wir folgendes Beispiel: Sie haben drei Kursteilnehmer: einer ist 25, einer 39 und einer 42.

@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.util.List;
 
 public class Main {
     public static void main( String[] args ) {
@@ -7,7 +6,7 @@ public class Main {
 
         Trainer t1 = new Trainer( "Michael", "Fischelmayer" );
 
-        institut.kursHinzufuegen( "Java 101", 3, t1, LocalDate.of( 2022, 9, 1 ), LocalDate.of( 2022, 10, 15 ) );
+        institut.kursHinzufuegen( "Java 101", 10, t1, LocalDate.of( 2022, 9, 1 ), LocalDate.of( 2022, 10, 15 ) );
         institut.kursHinzufuegen( "JDBC für Anfänger", 5, t1, LocalDate.of( 2022, 12, 1 ), LocalDate.of( 2022, 12, 2 ) );
 
         Teilnehmer tn1 = new Teilnehmer( "Max", "Mustermann", LocalDate.of( 1990, 1, 6 ), 'm' );
@@ -15,6 +14,7 @@ public class Main {
         Teilnehmer tn3 = new Teilnehmer( "Manfred", "Konstant", LocalDate.of( 1975, 8, 20 ), 'm' );
         Teilnehmer tn4 = new Teilnehmer( "Helmut", "Gausterer", LocalDate.of( 1960, 5, 12 ), 'm' );
         Teilnehmer tn5 = new Teilnehmer( "Jennifer", "York", LocalDate.of( 1998, 3, 11 ), 'd' );
+        Teilnehmer tn6 = new Teilnehmer( "Hans", "Oldman", LocalDate.of( 1850, 3, 11 ), 'm' );
 
 
         Kurs java101 = institut.sucheKurs( "Java 101" );
@@ -23,6 +23,7 @@ public class Main {
         java101.teilnehmerEintragen( tn3 );
         java101.teilnehmerEintragen( tn4 );
         java101.teilnehmerEintragen( tn5 );
+        java101.teilnehmerEintragen( tn6 );
         java101.printKursinfo();
 
         Kurs jdbcKurs = institut.sucheKurs( "JDBC für Anfänger" );
