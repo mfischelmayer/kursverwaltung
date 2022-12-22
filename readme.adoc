@@ -1,0 +1,198 @@
+
+:important-caption: ❗
+:tip-caption: 💡
+
+= Projekt Kursverwaltung
+Michael Fischelmayer <fischelmayer.at>
+
+Folgende Vorkenntnisse sind erforderlich:
+
+* Klassen und Objekte, Objektinteraktion, primitive und komplexe Datentypen
+* Methoden, Konstruktoren
+* Bedingungen, Schleifen (for-each; while)
+* Collections (`List`, `Map`), Iterator
+* Statische Methoden (`static`), Konstanten (`final`)
+* Umgang mit der Javadoc (wie und wo finde ich Informationen zu Bibliotheksklassen um diese einsetzen zu können)
+
+
+== Aufgabe
+
+Bevor Sie das untere Klassendiagramm inspizieren, versuchen Sie selbst anhand der Textbeschreibung ein Klassendiagramm zu erstellen (Nutzen Sie dafür am besten einfach ein Blatt Papier und einen Stift 😏).
+
+TIP: Anhand des Textes sollen Sie herausfinden, welche möglichen Klassen zu entwickeln sind. Alle möglichen Klassen beim ersten Lesen zu identifizieren ist schwierig und gelingt nur selten. Das ist aber normal, und ein iterativer Prozess!
+
+Ziel ist es ein einfaches Kursverwaltungsprogramm für verschiedene Lehrinstitute zu entwickeln.
+Es soll möglich sein ein Institut zu erstellen. Ein Institut hat einen Namen.
+Außerdem verwaltet es eine Liste von Kursen.
+
+Ein Kurs hat einen Namen, eine Liste von Teilnehmern, einen Trainer, ein Startdatum und ein Enddatum (beachten Sie die Box unten, welche einen kleinen Ausblick mit dem Umgang eines Datums zeigt).
+
+IMPORTANT: Für das Datum nutzen Sie die Klasse `LocalDate`. Diese kann bzw. muss nicht mit Zeitzonen umgehen und ist für unseren Einsatzzweck *fürs Erste* ausreichend. Achtung: Wir haben gelernet, dass Objekte von Klassen nur über dessen Konstruktor erzeugt werden können. *Das ist auch nach wie vor gültig und der einzige Weg ein Objekt einer Klasse zu erzeugen!* Manche (Bibliotheks-) Klassen stellen dem Anwender aber auch *statische* Erzeugermethoden bereit, welche wiederum intern den Konstruktor aufrufen. Das bleibt uns als Anwender jedoch verborgen (es wird *abstrahiert*).
+Um nun zu verhindern, dass ein Anwender wie wir den Konstruktor direkt aufruft (`new LocalDate(...)`), wird dieser als `private` deklariert. Somit ist er von außerhalb nicht mehr sichtbar.
+Mehr dazu in späteren Beispielen. Fürs Erste ist es wichtig zu wissen, dass ein `LocalDate` wie folgt erzeugt wird:
+
+[source,java]
+----
+// erzeugt ein Objekt der Klasse LocalDate mit dem gewuentschen Datum (04. Mai 2022)
+LocalDate date = LocalDate.of( 2022, 5, 4 );
+
+// erzeugt ein Objekt der Klasse LocalDate mit dem heutigen Datum
+LocalDate heute = LocalDate.now();
+----
+
+Ein Kursteilnehmer hat einen Vornamen, einen Nachnamen, ein Geburtsdatum, ein Geschlecht mit folgenden möglichen Werten: m, w oder d (Nutzen Sie einen primitiven `char` für das Feld `geschlecht`). Alle Felder sollen beim Erzeugen eines Teilnehmer-Objekt befüllt werden können. Befüllen Sie die Felder mit Standardwerten, wenn invalide Parameter übergeben wurden. z.b. geschlecht `-` wenn ein ungültiger char übergeben wurde.
+Entwickeln Sie für den Teilnehmer eine Methode, welche das Alter als Ganzzahl zurückgibt. Versuchen Sie selbst herauszufinden
+wie Sie mit dem `LocalDate` das Alter berechnen können.
+Außerdem schaffen Sie eine Möglichkeit, sämtliche Informationen eines Teilnehmers auf der Konsole auszugeben.
+
+Es soll möglich sein über das Institut einen neuen Kurs erstellen zu können.
+Relevant hierfür ist der Kursname, der Kurszeitraum, die maximale Teilnehmeranzahl und wer der Trainer des Kurses ist.
+Achtung, der Kursname soll eindeutig sein. d.h. bevor Sie einen Kurs zur Kursliste hinzufügen, müssen Sie prüfen,
+ob der Kursname bereits in der Liste vorhanden ist.
+Außerdem soll es im Institut möglich sein nach Kursen zu suchen. Und zwar
+
+* nach dem Kursnamen (es darf nur ein Kurs zurückgegeben werden)
+* nach einem Zeitraum (Es soll eine Liste von Kursen zurückgegeben werden, welche zwischen dem übergebenen Zeitraum liegt. Als Hinweis hier der mögliche Methodenkopf `public List<Kurs> sucheKurseZwischen(LocalDate start, LocalDate end)`)
+
+
+Bei einem Kurs soll es möglich sein Teilnehmer einzutragen. Sie müssen jedoch darauf achten, dass die maximale Anzahl
+von Kursteilnehmern nicht überschritten wird.
+Entwickeln Sie eine Methode welche sämtliche Kursdaten + einige Statistiken (z.B. Durschnittsalter) auf die Konsole ausgibt.
+Die Ausgabe soll in etwas so aussehen:
+
+[source]
+----
+*********************************************
+**************** KURSINFO *******************
+*********************************************
+Name:				Java 101
+Trainer:			Michael Fischelmayer
+Max. Anzahl:		3
+Belegung in %:		100.0
+Plätze frei:		0
+Frauenanteil in %:	33.333336
+Männeranteil in %:	66.66667
+Divers in %:		0.0
+Durchschnitt Alter:	39.666668
+-------------- Kursteilnehmer: --------------
+Teilnehmer{vorname='Max', nachname='Mustermann', geburtstag=1990-01-06, geschlecht=m}
+Teilnehmer{vorname='Julia', nachname='Herbst', geburtstag=1982-01-06, geschlecht=w}
+Teilnehmer{vorname='Manfred', nachname='Konstant', geburtstag=1975-08-20, geschlecht=m}
+----
+
+Denken Sie daran, Funktionalitäten in einzelne Methode auszugliedern.
+z.B. sollte die Berechnung des Durchschnittsalters in einer eigenen Methode erfolgen.
+In der Methode in welcher Sie die Informationen auf die Konsole ausgeben soll die Methode zur
+Durchschnittsalter-Berechnung dann nur noch aufgerufen werden.
+Das gilt natürlich auch für die andere Funktionalitäten. z.b. Der Berechnung der Kursbelegung, usw.
+
+TIP: Achten Sie generell darauf Ihre Daten (z.b. Parameter) auf Plausibilität zu prüfen.
+Darf es z.b. sein einem Teilnehmer den Geburtstag 01.01.1792 zu geben? Darf der Vorname leer oder null sein?
+Wenn ein Feld null sein darf, prüfen Sie dann Ihre Felder auch auf `null` wenn Sie darauf zugreifen (Stichwort: `NullPointerException`)?
+Eines der nächsten großen Themen wird *Exception Handling*. Bis dahin müssen wir uns damit begnügen,
+den ungültigen Feldern Standardwerte bzw. Fehlerwerte zu geben.
+
+IMPORTANT: Dieses Beispiel enthält einfache Prozentrechnungen.
+z.b. bei der Berechnung des Durchschnittsalters der Kursteilnehmer.
+*WICHTIG*: Wenn Sie zwei Ganzzahlwerte (`int`) dividieren erhalten Sie wieder eine Ganzzahl.
+Nehmen wir folgendes Beispiel: Sie haben drei Kursteilnehmer: einer ist 25, einer 39 und einer 42.
+Das Gesamtalter ist somit 109. Das Ganze durch 3 dividiert, ergibt das Durchschnittsalter.
+Es ist in userem Beispiel *35,3*. Diese Darstellung ist, wie wir schon wissen, mit einem Ganzzahldatentyp wie `int` einer ist, nicht möglich weshalb wir hier eine Fließkommadarstellung benötigen.
+*cast* ist hier das Zauberwort. Sie müssen eine bestehende `int` Variable nach `float` casten. Mehr dazu im Kurs.
+
+[source,java]
+----
+private float berechneDurchschnittsalter() {
+    int alterAllerTeilnehmer = 0;
+    for ( Teilnehmer t : teilnehmer ) {
+        alterAllerTeilnehmer += t.berechnetAlter();
+    }
+    return (float) alterAllerTeilnehmer / teilnehmer.size(); // <-- hier der CAST!
+}
+----
+
+
+== Erweiterungsmöglichkeiten
+
+Seien Sie kreativ. Es gibt einige Funktionen, um welche Sie das Beispiel erweitern könnten:
+
+z.b.
+
+* Frauenquote für Kurse: Man darf männliche Teilnehmer nur hinzubuchen, wenn die Frauenquote erfüllt ist (Schwerer als es am erste Blick scheint!)
+
+
+== Mögliches Klassendiagramm
+
+<<<
+
+=== Klassendiagramm
+
+[plantuml,target=as1,format=png]
+....
+class Teilnehmer {
+    - vorname: String
+    - nachname: String
+    - geburtstag: LocalDate
+    - geschlecht: char
+    ---
+    + Teilnehmer(vorname: String, nachname: String, geburtstag: LocalDate, geschlecht: char)
+    ---
+    // getter und setter nach eigenem Ermessen
+    + berechneAlter(): int
+    + print()
+}
+
+class Trainer {
+    - vorname: String
+    - nachname: String
+    ---
+    + Trainer(vorname: String, nachname: String)
+    ---
+    // getter und setter nach eigenem Ermessen
+}
+
+class Institut {
+    - name: String {readOnly}
+    - kurse: List<Kurs> {readOnly}
+    ---
+    + Institut(name: String)
+    ---
+    // getter und setter nach eigenem Ermessen
+    + kursHinzufuegen(name: String, maxTeilnehmerAnzahl: int, trainer: Trainer, von: LocalDate, bis: LocalDate)
+    + sucheKurseZwischen(von: LocalDate, bis: LocalDate): List<Kurs>
+    + sucheKurs(name: String): Kurs
+
+}
+
+class Kurs {
+    - name: String {readOnly}
+    - maxTeilnehmerAnzahl: int {readOnly}
+    - von: LocalDate
+    - bis: LocalDate
+    - teilnehmer: List<Teilnehmer>
+    - trainer: Trainer
+    ---
+    + Kurs(name: String, maxTeilnehmerAnzahl: int, von: LocalDate, bis: LocalDate, trainer: Trainer)
+    ---
+    // getter und setter nach eigenem Ermessen
+    + teilnehmerEintragen(teilnehmer: Teilnehmer)
+    + printKursinfo()
+    - berechneDurchschnittsalter(): float
+    - berechneKursbelegungInProzent(): float
+    - kursbelegungNachGeschlecht(): Map<Character, Float>
+}
+
+
+
+class Main {
+---
+---
+    +{static} main(args: String[])
+}
+
+Institut ---right Kurs
+Teilnehmer ---left Kurs
+Trainer --- Kurs
+Kurs <--[hidden] Main
+....
+
